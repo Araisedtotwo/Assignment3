@@ -1,0 +1,45 @@
+---
+title: "Assignment3"
+author: "Arushi Arora"
+date: "9/7/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+#### Reading the CSV from web and filtering 2 columns `Major` and `Major Code`
+```{r}
+data <- read.csv("https://raw.githubusercontent.com/fivethirtyeight/data/master/college-majors/grad-students.csv")
+major_code = data[[1]]
+major_name = data[[2]]
+```
+
+---
+
+#### Matching `Major` with `DATA` or `STATISTICS`, Obtaining indices
+```{r}
+## printing Majors matching DATA and STATISTICS
+print(grep(pattern = 'DATA|STATISTICS',value = TRUE, major_name, ignore.case = TRUE))
+```
+
+#### Extracing indices of the majors matching `DATA` or `STATISTICS`
+```{r}
+indices = grep(pattern = 'DATA|STATISTICS', major_name, ignore.case = TRUE)
+print(indices)
+```
+
+
+#### Matching `Major` with `DATA` or `STATISTICS`
+```{r}
+matching_major_code = major_code[indices]
+print(matching_major_code)
+```
+
+---
+### Q2 : Converting dataframe to vector
+```{r}
+raw_data_frame <- data.frame("bell pepper","bilberry","blackberry","blood orange","blueberry","cantaloupe","chili pepper","cloudberry","elderberry","lime","lychee","mulberry","olive","salal berry")
+print(raw_data_frame)
+```
