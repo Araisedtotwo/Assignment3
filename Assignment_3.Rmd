@@ -37,9 +37,160 @@ matching_major_code = major_code[indices]
 print(matching_major_code)
 ```
 
----
-### Q2 : Converting dataframe to vector
+
+
+### Q2 : Converting stirng/dataframe to vector
+
 ```{r}
+
 raw_data_frame <- data.frame("bell pepper","bilberry","blackberry","blood orange","blueberry","cantaloupe","chili pepper","cloudberry","elderberry","lime","lychee","mulberry","olive","salal berry")
 print(raw_data_frame)
+
+finalvector <- as.vector(raw_data_frame)
+print(finalvector)
+typeof (finalvector)
+
+
+#test_str = "bell pepper  bilberry     blackberry   blood orange\nblueberry    cantaloupe   chili pepper cloudberry  \nelderberry   lime         lychee       mulberry    \nolive        salal berry"
+#print(test_str)
+
+#finaltest <- as.vector(test_str)
+#print(finaltest)
+#typeof (finaltest)
+
+```
+
+---
+### Q3 : Describe, in words, what these expressions will match - a
+
+- (.)\1\1
+```{r}
+
+# Because the R language doesn't interpret single escape, the regex will not match groups, instead will directly compare \1
+# Regex Meaning in R
+# 	The (.) allows us to create a group of any character except \n
+# 	The \1 matches  exactly with '\1'
+regexpr("(.)\1\1", "a\1\1") 
+
+# General Regex Meaning
+# 	The (.) allows us to create a group of any character except \n
+# 	The \1 matches the same text as matched by the first group i.e (.)
+# 	The \1 again matches the same text as matched by the first group i.e (.)
+# 
+# Overall, the string should be have identical characters in a multiple characters
+# Possible Solutions (general, not R):
+# 	aaa  
+# 	aaabbb   => Match 1 : aaa   => Match 2 : bbb
+
+# Testing genral regex in R
+regexpr("(.)\1\1", "aaa")   # match.length = -1
+
+```
+
+### Q3 : Describe, in words, what these expressions will match - b
+- "(.)(.)\\2\\1"
+```{r}
+
+# Works will in R language with mactching groups
+
+# " => Overall pattern should start with double quotes like ""
+#  (.) => Any character except \n -> group1. Also capture 1
+#  (.) => Any character except \n -> group2. Also capture 2
+#  \\2 => Escaped string, actual \2 -> character that was matched by capture \2
+#  \\1 => Escaped string, actual \1 -> character that was matched by capture \1
+# " => Overall pattern should end with double quotes like ""
+
+# Examples strings for regex:
+# ""abba"", ""1221""
+
+regexpr('"(.)(.)\\2\\1"', '""abba""')   # match.length != -1 i.e match
+```
+
+### Q3 : Describe, in words, what these expressions will match - c
+- (..)\1
+```{r}
+# Because the R language doesn't interprets single escape, the regex will not match groups, instead will directly compare \1
+
+# Regex Meaning
+# 	The (..) allows us to create a group of any two character except \n
+# Regex Meaning in R
+# 	The \1 matches  exactly with '\1'
+regexpr("(..)\1", "ab\1")   # match.length != -1 i.e match
+
+# Regex Meaning in General
+# 	The \1 matches the same text as matched by the first group i.e the same two characters in first group
+regexpr("(..)\1", "abab")   # match.length = -1 (doesn't work with R lang)
+
+# But it work with double escaped characters in R
+regexpr("(..)\\1", "abab")  # match.length != -1 i.e match
+```
+
+### Q3 : Describe, in words, what these expressions will match - d
+- "(.).\\1.\\1"
+```{r}
+
+# "(.).\\1.\\1"
+# " => Overall pattern should start with double quotes like ""
+# (.) => Any character except \n -> group1. Also capture 1
+# .   => Any character
+# \\1 => Escaped string, actual \1 -> character that was matched by capture \1
+# .   => Any character
+# \\1 => Escaped string, actual \1 -> character that was matched by capture \1
+# " => Overall pattern should end with double quotes like ""
+regexpr('"(.).\\1.\\1"', '""azaba""')   # match.length != -1i.e match
+```
+
+---
+### Q4 : Construct regular expressions - a
+```{r}
+
+# Start and end with the same character
+print("============ 12131 ============")
+regexpr("^(.).*\\1$", "12131")
+
+print("============ avcxa ============")
+regexpr("^(.).*\\1$", "avcxa")
+
+print("============ $123@$ ============")
+regexpr("^(.).*\\1$", "$123@$")
+
+print("============ avcxab - Shouldn't match ============")
+regexpr("^(.).*\\1$", "avcxab")
+
+```
+
+---
+### Q4 : Construct regular expressions - b
+```{r}
+
+# Contain a repeated pair of letters
+print("============ church ============")
+regexpr(".*(.{2}).*?(\\1)", "church")
+
+print("============ abchurch ============")
+regexpr(".*(.{2}).*?(\\1)", "abchurch")
+
+print("============ abcab ============")
+regexpr(".*(.{2}).*?(\\1)", "abcab")
+
+print("============ abc - Shouldn't match ============")
+regexpr(".*(.{2}).*?(\\1)", "abc")
+
+```
+
+### Q4 : Contain one letter repeated in at least three places - c
+```{r}
+print("============ eleven ============")
+regexpr(".*([a-zA-Z]).*?(\\1).*?(\\1)", "eleven")
+
+print("============ abcadkam ============")
+regexpr(".*([a-zA-Z]).*?(\\1).*?(\\1)", "abcadkam")
+
+print("============ 1abc1sai30wa ============")
+regexpr(".*([a-zA-Z]).*?(\\1).*?(\\1)", "1abc1sai30wa")
+
+print("============ 12131 - Shouldn't match because only letters allowed ============")
+regexpr(".*([a-zA-Z]).*?(\\1).*?(\\1)", "12131")
+
+
 ```
