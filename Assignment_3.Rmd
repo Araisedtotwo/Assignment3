@@ -16,7 +16,7 @@ major_code = data[[1]]
 major_name = data[[2]]
 ```
 
----
+
 
 #### Matching `Major` with `DATA` or `STATISTICS`, Obtaining indices
 ```{r}
@@ -49,18 +49,10 @@ print(raw_data_frame)
 finalvector <- as.vector(raw_data_frame)
 print(finalvector)
 typeof (finalvector)
-
-
-#test_str = "bell pepper  bilberry     blackberry   blood orange\nblueberry    cantaloupe   chili pepper cloudberry  \nelderberry   lime         lychee       mulberry    \nolive        salal berry"
-#print(test_str)
-
-#finaltest <- as.vector(test_str)
-#print(finaltest)
-#typeof (finaltest)
-
 ```
 
----
+
+
 ### Q3 : Describe, in words, what these expressions will match - a
 
 - (.)\1\1
@@ -140,7 +132,7 @@ regexpr("(..)\\1", "abab")  # match.length != -1 i.e match
 regexpr('"(.).\\1.\\1"', '""azaba""')   # match.length != -1i.e match
 ```
 
----
+
 ### Q4 : Construct regular expressions - a
 ```{r}
 
@@ -159,7 +151,7 @@ regexpr("^(.).*\\1$", "avcxab")
 
 ```
 
----
+
 ### Q4 : Construct regular expressions - b
 ```{r}
 
